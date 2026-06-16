@@ -72,7 +72,7 @@ namespace Api2Cart.Connector.Services
       webhook.LastFailureUtc = DateTime.UtcNow;
 
       if (webhook.FailedCount >= FailureThreshold) {
-        webhook.Status = WebhookStatus.Failed;
+        webhook.Status = 2;  // Failed
       }
 
       await UpdateAsync(webhook);

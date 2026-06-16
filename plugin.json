@@ -7,5 +7,5 @@
   "Author": "API2Cart",
   "DisplayOrder": 0,
   "FileName": "Api2Cart.Connector.dll",
-  "Description": "API Connector Plugin for API2Cart integration. Exposes REST API endpoints for store data access."
+  "Description": "Connector plugin for API2Cart integration."
 }

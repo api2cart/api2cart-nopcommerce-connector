@@ -11,6 +11,7 @@ namespace Api2Cart.Connector.Helpers
   public static class CryptoHelper
   {
     private const string ConfigFileName = "connector.config.json";
+    private const string TokenPlaceholder = "PASTE_SECURITY_TOKEN_HERE";
 
     private static RSAParameters _rsaParams;
     private static string _keyId = string.Empty;
@@ -69,7 +70,7 @@ namespace Api2Cart.Connector.Helpers
 
       if (!File.Exists(configPath)) {
         throw new InvalidOperationException(
-          $"Encryption config missing at '{configPath}'. Rebuild plugin via API2Cart Plugin Builder."
+          $"Encryption config missing at '{configPath}'. Rebuild plugin via the Plugin Builder."
         );
       }
 
@@ -80,9 +81,10 @@ namespace Api2Cart.Connector.Helpers
       if (
         !config.TryGetValue("ConnectorPublicKey", out var pem)
         || string.IsNullOrEmpty(pem)
+        || pem == TokenPlaceholder
       ) {
         throw new InvalidOperationException(
-          $"ConnectorPublicKey missing in '{configPath}'. Rebuild plugin via the Plugin Builder."
+          $"ConnectorPublicKey missing or placeholder in '{configPath}'. Rebuild plugin via the Plugin Builder."
         );
       }
 
@@ -91,7 +93,7 @@ namespace Api2Cart.Connector.Helpers
         || string.IsNullOrEmpty(keyId)
       ) {
         throw new InvalidOperationException(
-          $"ConnectorKeyId missing in '{configPath}'. Rebuild plugin via API2Cart Plugin Builder."
+          $"ConnectorKeyId missing in '{configPath}'. Rebuild plugin via the Plugin Builder."
         );
       }
 
@@ -106,7 +108,6 @@ namespace Api2Cart.Connector.Helpers
     public static string Decrypt(string encryptedJson)
     {
       EnsureInitialized();
-
       var payload = JsonSerializer.Deserialize<EncryptedPayload>(encryptedJson);
 
       if (
@@ -147,7 +148,6 @@ namespace Api2Cart.Connector.Helpers
     public static string Encrypt(string data)
     {
       EnsureInitialized();
-
       var compressed = ZlibCompress(Encoding.UTF8.GetBytes(data));
 
       var aesKey = RandomNumberGenerator.GetBytes(32);

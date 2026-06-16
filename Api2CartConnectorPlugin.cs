@@ -1,5 +1,6 @@
 using System.Text;
 using System.Text.Json;
+using Api2Cart.Connector.Helpers;
 using Microsoft.AspNetCore.Routing;
 using Nop.Core;
 using Nop.Core.Domain.ScheduleTasks;
@@ -50,8 +51,7 @@ namespace Api2Cart.Connector
       var existing = await _settingService.LoadSettingAsync<Api2CartConnectorSettings>(store.Id);
 
       if (string.IsNullOrEmpty(existing.SecurityToken)) {
-        var packagedToken = ReadConfigValue("SecurityToken");
-        existing.SecurityToken = string.IsNullOrEmpty(packagedToken) ? "nop_" + Guid.NewGuid().ToString("N") : packagedToken;
+        existing.SecurityToken = "nop_" + Guid.NewGuid().ToString("N");
       }
 
       // APITOCART-45718: the plugin owns the webhook signing secret. Generate one store-level secret
@@ -64,7 +64,7 @@ namespace Api2Cart.Connector
 
       AssignIfPresent(ReadConfigValue("ConnectorPublicKey"), v => existing.ConnectorPublicKeyPem = v);
       AssignIfPresent(ReadConfigValue("ConnectorKeyId"),     v => existing.ConnectorKeyId        = v);
-      AssignIfPresent(ReadConfigValue("CallbackUrl"),        v => existing.CallbackUrl           = v);
+      AssignIfPresent(ReadConfigValue("CallbackUrl"),     v => existing.CallbackUrl        = v);
       existing.StoreUrl = store.Url?.TrimEnd('/') ?? string.Empty;
 
       await _settingService.SaveSettingAsync(existing, store.Id);
@@ -72,7 +72,7 @@ namespace Api2Cart.Connector
 
       await EnsureScheduledTaskAsync(
         new ScheduleTask {
-          Name = "Api2Cart webhook dispatch",
+          Name = "API2Cart webhook dispatch",
           Type = "Api2Cart.Connector.Tasks.WebhookDispatchTask, Api2Cart.Connector",
           Seconds = 15,
           Enabled = true,
@@ -83,7 +83,7 @@ namespace Api2Cart.Connector
 
       await EnsureScheduledTaskAsync(
         new ScheduleTask {
-          Name = "Api2Cart webhook log cleanup",
+          Name = "API2Cart webhook log cleanup",
           Type = "Api2Cart.Connector.Tasks.WebhookLogCleanupTask, Api2Cart.Connector",
           Seconds = 604800,
           Enabled = true,
@@ -98,12 +98,12 @@ namespace Api2Cart.Connector
 
     public override string GetConfigurationPageUrl()
     {
-      return "/api/api2cart/configure";
+      return $"/api/{ConnectorConfig.Slug}/configure";
     }
 
     public override async Task UninstallAsync()
     {
-      foreach (var name in new[] {"Api2Cart webhook dispatch", "Api2Cart webhook log cleanup"}) {
+      foreach (var name in new[] {"API2Cart webhook dispatch", "API2Cart webhook log cleanup"}) {
         var task = (await _scheduleTaskService.GetAllTasksAsync(true)).FirstOrDefault(t => t.Name == name);
 
         if (task != null) {
@@ -129,7 +129,7 @@ namespace Api2Cart.Connector
 
       if (CompareVersions(current, MaxSupportedNopVersion) > 0) {
         throw new NopException(
-          $"API Connector Plugin supports NopCommerce up to version {MaxSupportedNopVersion}. " +
+          $"This plugin supports NopCommerce up to version {MaxSupportedNopVersion}. " +
           $"Current installed version is {current}. Please upgrade the plugin to a build that supports this NopCommerce version."
         );
       }
@@ -229,7 +229,7 @@ namespace Api2Cart.Connector
         var content = new StringContent(json, Encoding.UTF8, "application/json");
         await http.PostAsync(callbackUrl, content);
       } catch (Exception ex) {
-        await _logger.WarningAsync("[Api2Cart.Connector] Install callback POST failed: " + ex.Message, ex);
+        await _logger.WarningAsync($"[{ConnectorConfig.FriendlyName}] Install callback POST failed: " + ex.Message, ex);
       }
     }
   }

@@ -69,8 +69,7 @@ namespace Api2Cart.Connector.Controllers
             langId,
             specAttrService,
             localizationService
-            )
-          );
+          ));
         }
 
         return JsonContent(

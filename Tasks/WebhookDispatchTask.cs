@@ -24,7 +24,7 @@ namespace Api2Cart.Connector.Tasks
     private const int BatchPullSize = 100;
     private const int MaxAttempts = 4;
     // Fallback timeout if IHttpClientFactory is not available (factory-configured client uses 30s
-    // via Api2CartApiStartup.cs::ConfigureServices). 30s tolerates dotnet HttpClient cold-start
+    // via Api2CartConnectorApiStartup.cs::ConfigureServices). 30s tolerates dotnet HttpClient cold-start
     // in Docker (DNS + TLS handshake on a fresh connection can take 5-15s after long idle).
     private const int HttpTimeoutSeconds = 30;
     private const string PluginIdentifier = "Api2Cart.Connector";

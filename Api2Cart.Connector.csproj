@@ -1,10 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
-    <Copyright>Api2Cart</Copyright>
-    <Company>Api2Cart</Company>
-    <Authors>Api2Cart</Authors>
-    <Description>API Connector Plugin for nopCommerce</Description>
+    <Copyright>API2Cart</Copyright>
+    <Company>API2Cart</Company>
+    <Authors>API2Cart</Authors>
+    <Description>Connector plugin for API2Cart integration.</Description>
     <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>

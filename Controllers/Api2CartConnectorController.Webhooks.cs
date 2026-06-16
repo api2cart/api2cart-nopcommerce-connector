@@ -48,7 +48,7 @@ namespace Api2Cart.Connector.Controllers
 
         if (!string.IsNullOrEmpty(active)) {
           if (bool.TryParse(active, out var parsedBool)) {
-            statusFilter = parsedBool ? WebhookStatus.Active : WebhookStatus.Inactive;
+            statusFilter = (byte)(parsedBool ? 1 : 0);
           } else if (byte.TryParse(active, out var parsedByte)) {
             statusFilter = parsedByte;
           }
@@ -128,11 +128,11 @@ namespace Api2Cart.Connector.Controllers
           return ParamError("Parameter 'store_id' must be a non-negative integer.");
         }
 
-        byte statusValue = WebhookStatus.Active;
+        byte statusValue = 1;
 
         if (!string.IsNullOrEmpty(status)) {
           if (bool.TryParse(status, out var parsedBool)) {
-            statusValue = parsedBool ? WebhookStatus.Active : WebhookStatus.Inactive;
+            statusValue = (byte)(parsedBool ? 1 : 0);
           } else if (byte.TryParse(status, out var parsedByte)) {
             statusValue = parsedByte;
           } else {

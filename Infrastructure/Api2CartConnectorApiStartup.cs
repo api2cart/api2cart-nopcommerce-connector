@@ -1,4 +1,5 @@
 using System.Net.Http;
+using Api2Cart.Connector.Helpers;
 using Api2Cart.Connector.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -16,7 +17,7 @@ namespace Api2Cart.Connector.Infrastructure
   /// a new guest when no .Nop.Customer cookie is present. Connector requests are stateless,
   /// so each request would create a ghost. Fix: inject a reusable guest cookie.
   /// </summary>
-  public class Api2CartApiStartup : INopStartup
+  public class Api2CartConnectorApiStartup : INopStartup
   {
     private static readonly string CookieName = $"{NopCookieDefaults.Prefix}{NopCookieDefaults.CustomerCookie}";
 
@@ -57,7 +58,7 @@ namespace Api2Cart.Connector.Infrastructure
         async (context, next) => {
           var path = context.Request.Path;
 
-          if (path.StartsWithSegments("/api/api2cart")
+          if (path.StartsWithSegments($"/api/{ConnectorConfig.Slug}")
             && !path.Value!.Contains("/configure", StringComparison.OrdinalIgnoreCase)
             && !context.Request.Cookies.ContainsKey(CookieName)) {
             var cookie = _connectorCookie ?? await InitConnectorCookie(context.RequestServices);

@@ -30,7 +30,7 @@ namespace Api2Cart.Connector.Services
         .Where(w =>
           w.Entity == entity
           && w.Action == action
-          && w.Status == WebhookStatus.Active
+          && w.Status == 1
           && (w.StoreId == 0 || storeId == 0 || w.StoreId == storeId)
         )
         .ToList();

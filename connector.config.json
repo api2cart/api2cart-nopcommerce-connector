@@ -1,7 +1,8 @@
 {
-    "SecurityToken": "PASTE_SECURITY_TOKEN_HERE",
-    "ConnectorPublicKey": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAs7U+5DVOZSzIjIFnku/q\nLhRL4xxXOkbiM0f64Y5rzhrYChK/AWX2ER8zEna5NBLsBCjbilLrtNM7HwTPZO2Y\n+py2Bui+sa0keOG12VIfTnYBG4OB7H76aqrwxF9eYYAWzRl1SZ9618Q5GEC+TAhV\ni889dxmT1DBB8wyX9Cr5hslYCxgOtGByC/c0bS8dIggiR4FWlBc6z9vb+ZuxfqhO\nwsDRt3LzP9Fs3FPF7crHfC+36kTW+dNA964edS9B+4fBq+1IL4byyQXR3mUFSPCr\nUnuYn58ohPyQWeXNsCGd8fmBC9+lMwQTReltRM1KmeUr2qrl+xwnuJtrVJh6+ClB\nGQIDAQAB\n-----END PUBLIC KEY-----\n",
-    "ConnectorKeyId": "a9db9be1b39f37834788764cbde96bcb",
-    "CallbackUrl": "",
-    "PluginVersion": "1.1.0"
+  "ConnectorPublicKey": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxcde2fRxkMQVUrFNzTw1\nGXmDthgj0v3EUgqZESNqN87qyZ5vpRGqBDuT1mKVnDVtapPvU5v3yD7Fj6spGie4\nXdjrCGKSv8EBf/XWtoiUC4UmTSA+yWwQZ9MdGPJu4gCY9Oy4vwUAzaoia+TQvjgq\nGe8oFHx3SnEoRRmd9ilcTnasc5l1TqDyggZHbreHjK+CK6pr0uxWZE692ol+GQRx\n0jzmurD2VTC40wYKfIiz3YyBCMi59gSqOlYoNsMYV1OQB4DfMk+A+1uZpUTa6lOR\niBY055iwof9i+7ECMKIjnrYymLAgvM5AQBBKPKO3BJkK4sKum+kcHsn8Oa15Rnpk\nRQIDAQAB\n-----END PUBLIC KEY-----\n",
+  "ConnectorKeyId": "121f5fe4f5a32b801740a5b8d561c73f",
+  "ConnectorUrlSlug": "api2cart",
+  "PluginFriendlyName": "API Connector Plugin",
+  "CallbackUrl": "",
+  "PluginVersion": "1.1.0"
 }

@@ -11,7 +11,8 @@ carts and marketplaces.
 |---|---|
 | `Api2CartConnectorPlugin.cs` | Plugin entry point (install / uninstall, settings bootstrap). |
 | `Controllers/`, `Services/`, `Filters/`, `Helpers/` | API endpoints, encryption, webhook dispatch. |
-| `connector.config.json` | Shipped encryption public key + key id and plugin metadata. |
+| `Helpers/ConnectorConfig.cs` | Reads the shipped `connector.config.json` (URL slug, friendly name). |
+| `connector.config.json` | Shipped RSA encryption public key + key id and plugin metadata. |
 | `Api2Cart.Connector.zip` | Built plugin package (single-folder layout). |
 | `Api2Cart.Connector.marketplace.zip` | Ready-to-deploy package with `uploadedItems.json` for **Configuration → Local plugins → Upload plugin or theme**. |
 
@@ -26,7 +27,8 @@ dotnet build Api2Cart.Connector.csproj -c Release
 ```
 
 Reference assemblies (`Nop.Core`, `Nop.Data`, `Nop.Services`, `Nop.Web.Framework`,
-`Autofac`, `FluentMigrator`) are expected in a sibling `../refs` directory.
+`Autofac`, `FluentMigrator`) are expected in a sibling `../refs` directory. The two
+zip packages in this repository are produced from this exact source.
 
 ## Support
 

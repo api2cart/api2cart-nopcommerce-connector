@@ -155,7 +155,7 @@ namespace Api2Cart.Connector.Controllers
       {
         SecurityToken = settings.SecurityToken,
         WebhookSecret = settings.WebhookSecret,
-        ConnectorUrl = $"{store.Url.TrimEnd('/')}/api/api2cart/",
+        ConnectorUrl = $"{store.Url.TrimEnd('/')}/api/{ConnectorConfig.Slug}/",
       };
 
       foreach (var entity in ScopeRegistry.EntityNames) {
@@ -198,7 +198,7 @@ namespace Api2Cart.Connector.Controllers
         }
       }
 
-      var actionName = Request.Path.Value?.Replace("/api/api2cart/", "").TrimEnd('/');
+      var actionName = Request.Path.Value?.Replace($"/api/{ConnectorConfig.Slug}/", "").TrimEnd('/');
 
       if (!string.IsNullOrEmpty(actionName)) {
         var scope = ScopeRegistry.GetScopeForAction(actionName);

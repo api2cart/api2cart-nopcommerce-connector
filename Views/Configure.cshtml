@@ -1,0 +1,161 @@
+@model Api2Cart.Connector.Models.ConfigureModel
+
+@{
+  Layout = "_AdminLayout";
+}
+
+<div class="content-header clearfix">
+  <h1 class="float-left">
+    API Connector Plugin
+    <small>
+      <i class="fas fa-arrow-circle-left"></i>
+      <a asp-action="List" asp-controller="Plugin" asp-area="Admin">back to plugin list</a>
+    </small>
+  </h1>
+</div>
+
+<form asp-controller="Api2CartConnector" asp-action="Configure" method="post" id="configForm">
+  <input type="hidden" name="action" id="formAction" value="" />
+
+  <section class="content">
+    <div class="container-fluid">
+
+      <div class="card card-default">
+        <div class="card-header">
+          <h3 class="card-title">Settings</h3>
+        </div>
+        <div class="card-body">
+          <p>Copy the Token below and paste it into your Api2Cart account when adding this store.</p>
+
+          <div class="form-group row">
+            <div class="col-md-3">
+              <label for="SecurityToken">Token</label>
+            </div>
+            <div class="col-md-7">
+              <input type="text" class="form-control" id="SecurityToken" name="SecurityToken"
+                     value="@Model.SecurityToken" readonly
+                     onclick="this.select();" style="font-family: monospace; font-size: 14px;" />
+              <small class="form-text text-muted">Click to select, then copy (Ctrl+C).</small>
+            </div>
+            <div class="col-md-2">
+              <button type="button" class="btn btn-warning btn-block" onclick="regenerateToken()">
+                Regenerate Token
+              </button>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-md-3">
+              <label for="WebhookSecret">Webhook Secret</label>
+            </div>
+            <div class="col-md-7">
+              <input type="text" class="form-control" id="WebhookSecret" name="WebhookSecret"
+                     value="@Model.WebhookSecret" readonly
+                     onclick="this.select();" style="font-family: monospace; font-size: 14px;" />
+              <small class="form-text text-muted">Paste into the Api2Cart <code>nopcommerce_secret</code> parameter to enable webhooks.</small>
+            </div>
+            <div class="col-md-2">
+              <button type="button" class="btn btn-warning btn-block" onclick="regenerateWebhookSecret()">
+                Regenerate Secret
+              </button>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-md-3">
+              <label>API URL</label>
+            </div>
+            <div class="col-md-9">
+              <input type="text" class="form-control" value="@Model.ConnectorUrl" readonly
+                     onclick="this.select();" style="font-family: monospace; font-size: 14px;" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card-default mt-3">
+        <div class="card-header">
+          <h3 class="card-title">Action Scopes</h3>
+        </div>
+        <div class="card-body">
+          <p>Control which data types are accessible through the API. Core actions (validate, store info) are always enabled.</p>
+
+          <table class="table table-bordered table-hover">
+            <thead>
+              <tr>
+                <th>Entity</th>
+                <th style="width: 100px; text-align: center;">Read</th>
+                <th style="width: 100px; text-align: center;">Write</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="table-secondary">
+                <td><strong>Core</strong> <small class="text-muted">(validate, store-info)</small></td>
+                <td style="text-align: center;">
+                  <input type="checkbox" checked disabled />
+                </td>
+                <td style="text-align: center;">
+                  <input type="checkbox" checked disabled />
+                </td>
+              </tr>
+              @foreach (var scope in Model.EntityScopes)
+              {
+                <tr>
+                  <td>@scope.EntityName</td>
+                  <td style="text-align: center;">
+                    @if (scope.ReadEnabled)
+                    {
+                      <input type="checkbox" name="scope_@(scope.EntityName)_Read" checked />
+                    }
+                    else
+                    {
+                      <input type="checkbox" name="scope_@(scope.EntityName)_Read" />
+                    }
+                  </td>
+                  <td style="text-align: center;">
+                    @if (scope.HasWriteActions)
+                    {
+                      if (scope.WriteEnabled)
+                      {
+                        <input type="checkbox" name="scope_@(scope.EntityName)_Write" checked />
+                      }
+                      else
+                      {
+                        <input type="checkbox" name="scope_@(scope.EntityName)_Write" />
+                      }
+                    }
+                    else
+                    {
+                      <input type="checkbox" disabled title="No write actions available for this entity." />
+                    }
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+
+          <button type="submit" class="btn btn-primary">
+            Save
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</form>
+
+<script>
+  function regenerateToken() {
+    if (confirm('This will generate a new token. Existing Api2Cart store connections will stop working and must be reconfigured. Continue?')) {
+      document.getElementById('formAction').value = 'regenerate';
+      document.getElementById('configForm').submit();
+    }
+  }
+
+  function regenerateWebhookSecret() {
+    if (confirm('This will generate a new webhook secret. Webhooks will stop working until you update the nopcommerce_secret value in Api2Cart. Continue?')) {
+      document.getElementById('formAction').value = 'regenerate_webhook_secret';
+      document.getElementById('configForm').submit();
+    }
+  }
+</script>

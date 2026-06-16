@@ -1,0 +1,11 @@
+{
+  "Group": "Misc",
+  "FriendlyName": "API Connector Plugin",
+  "SystemName": "Api2Cart.Connector",
+  "Version": "1.1.0",
+  "SupportedVersions": [ "4.90" ],
+  "Author": "API2Cart",
+  "DisplayOrder": 0,
+  "FileName": "Api2Cart.Connector.dll",
+  "Description": "API Connector Plugin for API2Cart integration. Exposes REST API endpoints for store data access."
+}
